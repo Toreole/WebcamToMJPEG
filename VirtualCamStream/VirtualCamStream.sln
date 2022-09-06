@@ -7,16 +7,28 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VirtualCamStream", "Virtual
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_MBCS|x64 = Debug_MBCS|x64
+		Debug_MBCS|x86 = Debug_MBCS|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release_MBCS|x64 = Release_MBCS|x64
+		Release_MBCS|x86 = Release_MBCS|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug_MBCS|x64.ActiveCfg = Debug|x64
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug_MBCS|x64.Build.0 = Debug|x64
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug_MBCS|x86.ActiveCfg = Debug|Win32
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug_MBCS|x86.Build.0 = Debug|Win32
 		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug|x64.ActiveCfg = Debug|x64
 		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug|x64.Build.0 = Debug|x64
 		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug|x86.ActiveCfg = Debug|Win32
 		{7482D380-9E4B-498C-9FFE-08805815B765}.Debug|x86.Build.0 = Debug|Win32
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Release_MBCS|x64.ActiveCfg = Release|x64
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Release_MBCS|x64.Build.0 = Release|x64
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Release_MBCS|x86.ActiveCfg = Release|Win32
+		{7482D380-9E4B-498C-9FFE-08805815B765}.Release_MBCS|x86.Build.0 = Release|Win32
 		{7482D380-9E4B-498C-9FFE-08805815B765}.Release|x64.ActiveCfg = Release|x64
 		{7482D380-9E4B-498C-9FFE-08805815B765}.Release|x64.Build.0 = Release|x64
 		{7482D380-9E4B-498C-9FFE-08805815B765}.Release|x86.ActiveCfg = Release|Win32
