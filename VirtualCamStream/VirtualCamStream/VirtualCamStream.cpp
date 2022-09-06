@@ -8,6 +8,7 @@
 #include <mfidl.h>
 #pragma comment(lib, "Mfplat.lib")
 #pragma comment(lib, "Mf.lib")
+#pragma comment(lib, "mfsensorgroup.lib")
 
 #include "CVirtualCamera.h"
 
@@ -52,7 +53,7 @@ int main()
         // for now its easiest to just print each character of str individually.
         for (UINT i = 0; i < l; ++i)
         {
-            char c = str[i];
+            wchar_t c = str[i];
             std::cout << c;
         }
     }
@@ -62,7 +63,13 @@ int main()
     GUID* category = NULL;
 
     //pointer to a virtual camera. must not be nullptr.
-    IMFVirtualCamera *pVCam = new CVirtualCamera();
+    IMFVirtualCamera* pIVCam = NULL;
+    CVirtualCamera* pVCam = NULL;
+    hr = CVirtualCamera::CreateInstance(&pVCam);
+    if (SUCCEEDED(hr))
+    {
+        pIVCam = pVCam;
+    }
 
     // fully create the virtual camera see https://docs.microsoft.com/en-us/windows/win32/api/mfvirtualcamera/nf-mfvirtualcamera-mfcreatevirtualcamera
     hr = MFCreateVirtualCamera(
@@ -73,7 +80,7 @@ int main()
         L"{1E882AC0-923E-4183-BA56-F1E7C61ABDF8}",
         category,
         0, //categoryCount must be 0 if NULL is passed.
-        &pVCam
+        &pIVCam
     );
     if (SUCCEEDED(hr))
     {
