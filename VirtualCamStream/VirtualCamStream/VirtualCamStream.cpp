@@ -18,6 +18,15 @@ int main()
     HRESULT hr = 0L;
     ICreateDevEnum *pSysDevEnum = NULL;
 
+    //finally something new learned!
+    // the COM library needs to be initialized on the current thread!
+    hr = CoInitialize(0);
+    if (FAILED(hr))
+    {
+        std::cout << "Error code: (decimal) " << (UINT32)hr << '\n';
+        return -1;
+    }
+
     hr = CoCreateInstance(CLSID_SystemDeviceEnum, NULL, CLSCTX_INPROC_SERVER, IID_ICreateDevEnum, (void**)&pSysDevEnum);
 
     if (FAILED(hr))
@@ -30,11 +39,10 @@ int main()
             std::cout << "Reason: specified class does not implement requested interface\n";
         if (hr == E_POINTER)
             std::cout << "Reason: ppv is NULL\n";
-        if (hr == S_OK)
-            std::cout << "wtf why does it think OK is fail?\n";
-        std::cout << hr << '\n';
-        std::cout << "woah it failed on the very first step. Great.\n";
-        return -666;
+        if (hr == CO_E_NOTINITIALIZED)
+            std::cout << "Reason: CoInitialize has not been called.\n";
+        std::cout << "Error code: (decimal) " << (UINT32)hr << '\n';
+        return -1;
     }
 
     // Obtain a class enumerator for the video capture category.
@@ -61,7 +69,24 @@ int main()
                 hr = pPropBag->Read(L"FriendlyName", &varName, 0);
                 if (SUCCEEDED(hr))
                 {
-                    std::cout << varName.bstrVal;
+                    BSTR bstr = varName.bstrVal;
+                    //the first 4 bytes are the length prefix - it determines the amount of bytes that are the data.
+                    UINT32 strLength = 11;//*(((UINT32*)bstr));
+
+                    UINT32* pLength = (UINT32*)bstr;
+                    //the real length of the string is just before it. looks wanky but works.
+                    strLength = pLength[-1];
+
+                    //divide the length by byte size of wchar_t to compensate for type size.
+                    strLength /= sizeof(wchar_t);
+
+                    //the bstr is a pointer to the first character of the data string:
+                    wchar_t* pchar = (wchar_t*)bstr;
+                    
+                    //print every character individually who cares.
+                    for (UINT32 i = 0; i < strLength; ++i)
+                        std::cout << (char)(pchar[i]);
+                    std::cout << '\n';
                 }
                 VariantClear(&varName);
             }
@@ -69,6 +94,8 @@ int main()
 
 
     }
-
     pSysDevEnum->Release();
+    //COM library must be uninitialized at the end.
+    //this goes for *every* CoInitialize call in the program.
+    CoUninitialize();
 }
