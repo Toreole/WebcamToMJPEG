@@ -69,7 +69,7 @@ int main()
                 hr = pPropBag->Read(L"FriendlyName", &varName, 0);
                 if (SUCCEEDED(hr))
                 {
-                    BSTR bstr = varName.bstrVal;
+                    BSTR bstr = varName.bstrVal; // see https://docs.microsoft.com/en-us/previous-versions/windows/desktop/automat/bstr 
                     //the first 4 bytes are the length prefix - it determines the amount of bytes that are the data.
                     UINT32 strLength = 11;//*(((UINT32*)bstr));
 
